@@ -1,7 +1,10 @@
-// import  {createService} from './userService.js'
+
 import bcrypt from 'bcrypt'
 import pool from '../database.js'
 import jwt from 'jsonwebtoken'
+import {promisify} from "util"
+
+const exceQuery = promisify(pool.query).bind(pool);
 
 export const createUser =async(req,res)=>{
     let hashPassword = req.body.password
@@ -14,77 +17,67 @@ export const createUser =async(req,res)=>{
     password:hashPassword,
     dob:req.body.dob
  }
- const query = `INSERT INTO registration(name,email,password,dob) VALUES(?,?,?,?)`
-pool.query(query, Object.values(data), (error)=>{
-    if(error){
-        console.log(error.message)
-        res.status(500).json({success:false,message:'server not found'})
-    }else{
-        res.status(200).json({success:true,data:data})
+ const queryFind = `SELECT * FROM registration where "${data.email}"`
+ const queryInsert = `INSERT INTO registration SET ?`
+ try{
+    const existingUser = await exceQuery(queryFind)
+    console.log(existingUser.length)
+    if(existingUser.length){
+     return res.status(400).json({success:false , message: `user already ${data.email} exist`})
     }
-})
+    const registerNewUser = await exceQuery(queryInsert ,data)
+    console.log(registerNewUser)
+    if(registerNewUser){
+        return res.status(200).json({
+       success:true , data:data     
+        })
+    }
+ }catch(error){
+    return res.status(500).json({message:error.message})
+ }
 }
-export const authenticateToken =(req, res, next)=>{
-    const token = req.cookies["access-token"]
-    if(token == null) return res.status(401)
+
+
+export const getUser = async(req,res)=>{
+    let id = req.params.id;
+    const query = ` select * from registration where idRegistration = ${id} `
     try{
-      const user =  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-      if(user){
-        req.authenticated = true;
-      }
-     
-        return next()
-
-    }catch(err){
-        console.log(err.message)
-        return res.status(400)
-
-    }
-    
-    }
-
-export const getUser = (req,res)=>{
-    let email = req.body.email;
-    const query = ` select * from registration where email = ? `
-    pool.query(query,[email],(error,result)=>{
-        if(error){
-            console.log(error.message)
-            res.status(500)
-        }else{
-            res.json({success:true, result:result})
+        const result =  await exceQuery(query)
+        console.log(result)
+        if(result){
+            return res.status(200).json({success:true , result:result})
         }
+        
+    }catch(error){
+        return res.status(500).json({message:error.message})
+    }
 
-    })
 }
 
 
 export const login = async(req,res)=>{
     let email = req.body.email;
-    const query = ` select * from registration where email = ? `
-    pool.query(query,[email],(error,results)=>{
-        if(error){
-            console.log(error.message)
-            res.status(500).json({success:false ,message :"server not found"})
-        }else{
-            if(results.length > 0) { 
-                bcrypt.compare(req.body.password, results[0].password, function(err, result) {
-                    
-                 if(result) {
-                    const accessToken = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET)
-                   return  res.cookie("access-token", accessToken, {
-                    maxAge: 60 * 60 * 24 * 30 * 1000,
-                    httpOnly: true,
-                  }).json({message:"logged in"})
-                 }
-                 else {
-                   return res.status(400).json({ message: "Invalid Password" });
-                 }
-                })
-                
-            }
-            else {
-                return res.status(400).json({ message: "Invalid Email" });
-            } 
-        }
+    const query = ` select * from registration where email = "${email}" `
+    
+    try{
+    const results = await exceQuery(query)
+    console.log(results[0])
+    if(results.length > 0){
+        bcrypt.compare(req.body.password, results[0].password, function(error, result) {
+                        if(error) throw error
+                         if(result) {
+                            const accessToken = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET)
+                           return  res.status(200).json({success: true ,accessToken:accessToken, message:"logged in" , user:results[0]})
+                         }
+                         else {
+                           return res.status(400).json({ message: "Invalid Password or Email" });
+                         }
+                        })
+                        
+    }
+    }catch(error){
+        res.status(500).json({message :error.message})
+    }
 
-})}
+
+}

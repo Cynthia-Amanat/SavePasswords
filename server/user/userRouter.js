@@ -1,9 +1,10 @@
- import { createUser,login,authenticateToken,getUser } from "./userControllers.js";
+ import { createUser,login ,getUser } from "./userControllers.js";
+ import { authenticateToken } from "./middleWare/authenicateToken.js";
  import { Router } from "express";
  
 
  const userRouter = Router();
-userRouter.get("/profile",authenticateToken ,getUser )
+userRouter.get("/profile/:id",authenticateToken ,getUser )
  userRouter.post("/registration",createUser)
  userRouter.post("/login",login)
 
