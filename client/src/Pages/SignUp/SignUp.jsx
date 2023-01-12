@@ -32,7 +32,6 @@ import {useAuth} from "../../Context/UserContext";
         try{
         const response = await fetch(url , methods)
         const data = await response.json()
-        console.log(data)
         setUser(data)
         if(data.success){
             navigate("/Login",{replace: true})

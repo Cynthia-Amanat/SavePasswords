@@ -27,7 +27,7 @@ const [onClick, setOnClick] = useState(false);
       token: credentialResponse.credential,
     });
     localStorage.setItem(
-      "user",
+      "accessToken",
       JSON.stringify({
         result: decodedToken,
         token: credentialResponse.credential,
@@ -37,41 +37,41 @@ const [onClick, setOnClick] = useState(false);
   };
   // login with database
 
-const url = "http://localhost:8000/users/login"
-    const method = {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({email, password}),
-    }
+  const url = "http://localhost:8000/users/login"
+  const method = {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({email, password}),
+  }
 useEffect(()=>{
-  ( async () => {
-    if(onClick) {
-      try{
-        setIsLoading(true)
-        const response = await fetch( url , method)
-        const data = await response.json()
-        console.log(data)
-        if(data.success){
-        const { user, accessToken } = data;
-        localStorage.setItem("accessToken", `${accessToken}`);
-        setUser(user);
-        navigate('/' , { replace: true });
-        }else{
-          setError(data.message)
-        }
-        setIsLoading(false)
-      
+( async () => {
+  if(onClick) {
+    try{
+      setIsLoading(true)
+      const response = await fetch( url , method)
+      const data = await response.json()
+      if(data.success){
+      const { user, accessToken } = data;
+      localStorage.setItem("accessToken", `${accessToken}`);
+      localStorage.setItem("loggin", true);
+      setUser(data.user);
+      navigate('/' , { replace: true });
+      }else{
+        setError(data.message)
+      }
+      setIsLoading(false)
+    
 
-      }
-      catch(error){
-        setError(error.message)
-        console.log(error)
-      }
     }
+    catch(error){
+      setError(error.message)
+      console.log(error)
+    }
+  }
 
 
-  }) ();
-  setOnClick(false)
+}) ();
+setOnClick(false)
 
 },[onClick])
     
@@ -123,5 +123,5 @@ useEffect(()=>{
 </div>
 </div>
     )
-}
+            }
 export default Login

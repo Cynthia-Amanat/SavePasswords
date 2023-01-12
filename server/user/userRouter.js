@@ -4,7 +4,7 @@
  
 
  const userRouter = Router();
-userRouter.get("/profile/:id",authenticateToken ,getUser )
+ userRouter.get("/profile", authenticateToken ,getUser )
  userRouter.post("/registration",createUser)
  userRouter.post("/login",login)
 

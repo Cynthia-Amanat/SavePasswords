@@ -5,16 +5,7 @@
     padding: 0;
     box-sizing: border-box;
 }
-.signUp{
-   
-    background-size: 200% 100% !important;
-    animation: move 10s ease infinite;
-    transform: translate3d(0, 0, 0);
-    background: linear-gradient(45deg, #49D49D 10%, #A2C7E5 90%);
-    height: 100vh;
-    margin-top: -5%;
-    
-}
+
 .user-signUp {
     width: 90%;
     max-width: 340px;
@@ -79,9 +70,11 @@
     transition: 0.3s;  
 }
 .link{
-    text-decoration: none;
-    color: #494745;
-
+    
+     text-decoration: none;
+     padding-top: 30px;
+     font-size: 20px;
+     color: #494745;
 }
 
 @keyframes NO {

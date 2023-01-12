@@ -21,12 +21,10 @@ export const createUser =async(req,res)=>{
  const queryInsert = `INSERT INTO registration SET ?`
  try{
     const existingUser = await exceQuery(queryFind)
-    console.log(existingUser.length)
     if(existingUser.length){
      return res.status(400).json({success:false , message: `user already ${data.email} exist`})
     }
     const registerNewUser = await exceQuery(queryInsert ,data)
-    console.log(registerNewUser)
     if(registerNewUser){
         return res.status(200).json({
        success:true , data:data     
@@ -39,17 +37,17 @@ export const createUser =async(req,res)=>{
 
 
 export const getUser = async(req,res)=>{
-    let id = req.params.id;
-    const query = ` select * from registration where idRegistration = ${id} `
+    let email = req.user;
+    const query = ` select * from registration where email = "${email}" `
     try{
         const result =  await exceQuery(query)
-        console.log(result)
+        console.log(result[0])
         if(result){
-            return res.status(200).json({success:true , result:result})
+            return res.status(200).json({success:true , user:result[0]})
         }
         
     }catch(error){
-        return res.status(500).json({message:error.message})
+        return res.status(500).json({message:error})
     }
 
 }
@@ -61,7 +59,6 @@ export const login = async(req,res)=>{
     
     try{
     const results = await exceQuery(query)
-    console.log(results[0])
     if(results.length > 0){
         bcrypt.compare(req.body.password, results[0].password, function(error, result) {
                         if(error) throw error

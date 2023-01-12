@@ -5,8 +5,10 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider } from "./Context/UserContext.js";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.js";
 import HomePage from "./Pages/Home/HomePage"
+import "./App.css"
 
 function App() {
+  const logginUser = localStorage.getItem("loggin")
   return (
     <>
     
@@ -14,8 +16,9 @@ function App() {
     <AuthProvider>
     <Routes>
     <Route element ={<Login/>} path="/Login" />
-      <Route   element ={<SignUp/>} path="/SignUp"/>
+      <Route element ={<SignUp/>} path="/SignUp"/>
       <Route element={<ProtectedRoute/>}>
+      
       <Route element ={<HomePage/>} path = "/" exact/>
       </Route>
     </Routes>

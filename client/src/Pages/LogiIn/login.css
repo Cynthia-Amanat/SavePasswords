@@ -3,15 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 }
-.login{
-   
-    background-size: 200% 100% !important;
-    animation: move 10s ease infinite;
-    transform: translate3d(0, 0, 0);
-    background: linear-gradient(45deg, #49D49D 10%, #A2C7E5 90%);
-    height: 100vh;
-    margin-top: -5%;
-}
+
 .user__login{
     width: 90%;
     max-width: 400px;
@@ -85,7 +77,7 @@
     bottom:58%;
 }
 .linkForSignUp{
-
+  text-decoration: none;
   padding-top: 30px;
   font-size: 20px;
   color: #494745;
