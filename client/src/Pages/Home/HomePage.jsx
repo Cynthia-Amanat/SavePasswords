@@ -1,12 +1,16 @@
 
 import NavBar from "../../Components/NavBar/NavBar";
+import SavePasswordButton from "../../Components/SavePasswordButton/SavePasswordButton";
+import PasswordsList from "../../Components/PasswordsList/PasswordsList";
 const HomePage =()=>{
    
 
     return(
         <>
         <NavBar/>
-        <h1>HomePage</h1>
+        <SavePasswordButton/>
+        <PasswordsList/>
+        
 </>
         
     )
