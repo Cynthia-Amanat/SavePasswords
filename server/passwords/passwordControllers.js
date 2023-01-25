@@ -41,3 +41,7 @@ export const getPasswords = async (req, res)=>{
         return res.status(400).json({success:false , message:error.message})
     }
 }
+
+export const decrypt = (req, res)=>{
+    res.status(200).json(decryption(req.body));
+}

@@ -23,13 +23,13 @@ const [onClick, setOnClick] = useState(false);
         console.log(credentialResponse)
         const decodedToken = await jwt_decode(credentialResponse.credential);
     setUser({
-      result: decodedToken,
+      user: decodedToken,
       token: credentialResponse.credential,
     });
     localStorage.setItem(
       "accessToken",
       JSON.stringify({
-        result: decodedToken,
+        user: decodedToken,
         token: credentialResponse.credential,
       })
     );

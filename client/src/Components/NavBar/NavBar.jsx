@@ -7,6 +7,7 @@ const NavBar = ()=>{
 
     const navigate = useNavigate()
     const {logout, user}= useAuth()
+    
       
     return(
         <div className="navbar">
@@ -14,7 +15,7 @@ const NavBar = ()=>{
                 <div className="navbar_logo"><i className="fa-solid fa-lock"></i><h3>SavePass</h3></div>
                 {user &&
                 <div className="navbar_userInfo">  
-                 <h6> welcome {user?.name}</h6>     
+                 <h6> welcome {user.name}</h6>     
              <div className="user-img-header-container">
             <img
               src={user && user?.photo ? user.photo : defaultUserImg}

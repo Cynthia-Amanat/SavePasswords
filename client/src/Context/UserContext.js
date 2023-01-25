@@ -9,7 +9,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({children}) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState([]);
   const [error, setError] = useState("");
   const [token, setToken] = useState(() => {
     const token = localStorage.getItem("accessToken");

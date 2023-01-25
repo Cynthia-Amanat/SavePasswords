@@ -17,11 +17,11 @@ return {iv:initializationVector.toString("hex"),password:encryptedPassword.toStr
  }
 
  export const decryption = (encryptedPassword) =>{
-    const dicipher = crypto.createDecipheriv("aes-256-crt",Buffer.from(process.env.ACCESS_TOKEN_SECRET),Buffer.from(encryptedPassword.iv ,"hex"))
+    const decipher = crypto.createDecipheriv("aes-256-ctr",Buffer.from(process.env.KEY),Buffer.from(encryptedPassword.iv ,"hex"))
 
     const decryptPassword = Buffer.concat([
-    dicipher.update(Buffer.from(encryptedPassword.password ,"hex")),
-    dicipher.final()
+    decipher.update(Buffer.from(encryptedPassword.password ,"hex")),
+    decipher.final()
 ])
  return decryptPassword.toString()
  }
