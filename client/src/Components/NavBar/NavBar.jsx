@@ -2,7 +2,6 @@ import "../NavBar/NavBar.css"
 import { useAuth } from "../../Context/UserContext";
 import { useNavigate } from "react-router-dom";
 import defaultUserImg from "../NavBar/default-profile-picture.png"
-import SavePasswordButton from "../SavePasswordButton/SavePasswordButton";
 const NavBar = ()=>{
 
     const navigate = useNavigate()

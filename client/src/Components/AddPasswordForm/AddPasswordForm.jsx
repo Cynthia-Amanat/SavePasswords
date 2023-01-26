@@ -19,7 +19,6 @@ const AddPasswordForm = ()=>{
     const addPasswordHandler = async() =>{
       
         try{
-            console.log("add password")
             const response = await fetch(url,methods)
             const data = await response.json()
             if (data.success) {

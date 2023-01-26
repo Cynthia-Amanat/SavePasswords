@@ -10,7 +10,7 @@ import { useEffect } from "react";
 
 const Login = () => {
 const navigate = useNavigate()
-const {setUser , user}= useAuth() 
+const {setUser}= useAuth() 
 const [error,setError] = useState(false)
 const [Isloading ,setIsLoading] = useState(false)
 const [email, setEmail]= useState()
@@ -51,7 +51,7 @@ useEffect(()=>{
       const response = await fetch( url , method)
       const data = await response.json()
       if(data.success){
-      const { user, accessToken } = data;
+      const { accessToken } = data;
       localStorage.setItem("accessToken", `${accessToken}`);
       localStorage.setItem("loggin", true);
       setUser(data.user);
