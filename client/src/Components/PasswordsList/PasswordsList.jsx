@@ -7,7 +7,6 @@ import EditPopUp from "../EditPopUp/EditPopUp";
 const PasswordsList = ()=>{
 const {passwordsList , setPasswordList,setError} = PasswordsListContext()
 const [open ,setOpen]= useState(false)
-console.log(passwordsList)
 const decryptPassword = async(encryption) =>{
     const url = "http://localhost:8000/passwords/decryptpassword"
     const methods = {
@@ -67,7 +66,7 @@ return(
   </tr>
   </thead>
   <tbody>
-        {passwordsList.map((item,key)=>{
+        {passwordsList.map((item, key)=>{
         return <tr key={key}>
         <td>
         <img  className="app_logo" src={`https://logo.clearbit.com/${item.title}.com?size=100`}alt ="logo" onError={imageOnError}/>

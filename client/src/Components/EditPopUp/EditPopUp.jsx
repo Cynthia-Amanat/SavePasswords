@@ -6,15 +6,15 @@ const EditPopUp = ({setOpen,item })=>{
     const [title, setTitle] = useState("")
     const [password , setPassword] = useState("")
     const [showPassword, setShowPassword] = useState("password")
-    const {PasswordsList} = PasswordsListContext()
-    console.log(PasswordsList)
+    // const {passwordsList} = PasswordsListContext()
+    console.log(item.idpasswords)
     const url =`http://localhost:8000/passwords/update/${item.idpasswords}`
     const method = {
         method: "PATCH",
             headers: {
               "Content-Type": "application/json",
             },
-            body:JSON.stringify({title ,password})
+            body:JSON.stringify({title, password})
         }
   
     const editHandler  =async ()=>{
@@ -25,7 +25,7 @@ const EditPopUp = ({setOpen,item })=>{
         setOpen(false)    
             
         }catch(error){
-        console.log(error.message)
+        console.log(error)
        }
     }
 
