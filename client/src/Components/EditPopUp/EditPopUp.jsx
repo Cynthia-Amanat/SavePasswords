@@ -1,10 +1,13 @@
 
 import React ,{useState} from "react"
-// import useFetch from "../../hook/UseFetch";
+import "./EditPopUp.css"
+import { PasswordsListContext } from "../../Context/PasswordContext";
+
 const EditPopUp = ({setOpen, item})=>{
     const [title, setTitle] = useState("")
     const [password , setPassword] = useState("")
     const [showPassword, setShowPassword] = useState("password")
+    const { setPasswordList} = PasswordsListContext()
     const url =`http://localhost:8000/passwords/update/${item.idpasswords}`
     const method = {
         method: "PATCH",
@@ -28,24 +31,24 @@ const EditPopUp = ({setOpen, item})=>{
     }
 
     return(
-        <div className="addPasswords" id="addPasswords_form" >
-        <section className="form_addPasswords">
+        <div className="editPassword">
+        <section className="form_editPassword">
         
-        <div className="form__group_addPasswords">
+        <div className="form__group_editPassword">
         <button className= "close-btn btn" onClick={()=>setOpen(false)}>Close</button>
             <input type="text"
             required
             placeholder= {item.title}
-            className="form__input_addPasswords" 
+            className="form__input_editPassword" 
             onChange={(e) => setTitle(e.target.value)}/>
             
         </div>
         
-        <div className="form__group_addPasswords">
+        <div className="form__group_editPassword">
             <input type={showPassword}
              required
              placeholder= "password"
-             className="form__input_addPasswords"
+             className="form__input_editPassword"
              onChange={(e) => setPassword(e.target.value)} />
             <i
               style={{position: "fixed" , top:"50%" , left:"70%"}}

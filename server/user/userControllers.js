@@ -41,7 +41,6 @@ export const getUser = async(req,res)=>{
     const query = ` select * from registration where email = "${email}" `
     try{
         const result =  await exceQuery(query)
-        // console.log(result[0])
         if(result){
             return res.status(200).json({success:true , user:result[0]})
         }
@@ -54,6 +53,7 @@ export const getUser = async(req,res)=>{
 
 
 export const login = async(req,res)=>{
+    
     let email = req.body.email;
     const query = ` select * from registration where email = "${email}" `
     

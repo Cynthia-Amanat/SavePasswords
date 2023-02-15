@@ -18,7 +18,9 @@ export const addPassword = async(req ,res)=>{
         const addPassword = await exceQuery(query,[title, encryptedPassword.password, idRegistration, encryptedPassword.iv])
 
         if(addPassword){
-         return res.status(200).json({success:true})
+            const allPasswords = await exceQuery('Select * from passwords')
+
+         return res.status(200).json({success:true, data:allPasswords})
         }
 
     }catch(error){
@@ -51,11 +53,14 @@ export const decrypt = (req, res)=>{
 
 export const UpdatePasswordsAndTitle = async(req, res)=>{
     const id = req.params.id
-    const {
-        title,
-        password,
-    }= req.body
-   
+    // const {
+    //     title,
+    //     password,
+    // }= req.body
+    const title = req.body.title
+    const password = req.body.password
+   console.log(req.body)
+   console.log(id)
 
     const queryTitle = `UPDATE passwords SET title = ? WHERE idpasswords = ${id}`
     
@@ -64,7 +69,7 @@ export const UpdatePasswordsAndTitle = async(req, res)=>{
         if(title){
          await exceQuery(queryTitle ,[title ,id],(error, result) => {
             if (error) throw error;
-            res.send('title updated successfully!');
+            res.status(200).json({success: true , message:" title successfully updated"});
             console.log(result)
         }
 
@@ -74,7 +79,7 @@ export const UpdatePasswordsAndTitle = async(req, res)=>{
             const encryptedPassword = encryption(password)
             await exceQuery(queryPassword,[encryptedPassword.password,encryptedPassword.iv,  id],(error, result) => {
                 if (error) throw error;
-                res.send('password updated successfully!');
+                res.status(200).json({success: true , message:" passsword successfully updated"});
                 console.log(result)
             })
         }

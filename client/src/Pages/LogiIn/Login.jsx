@@ -6,13 +6,14 @@ import {useAuth} from "../../Context/UserContext";
 import jwt_decode from "jwt-decode"
 import { useNavigate,  Link} from "react-router-dom";
 import { useEffect } from "react";
+import PulseLoader from "react-spinners/PulseLoader";
 
 
 const Login = () => {
 const navigate = useNavigate()
 const {setUser}= useAuth() 
 const [error,setError] = useState(false)
-const [Isloading ,setIsLoading] = useState(false)
+const [isLoading ,setIsLoading] = useState(false)
 const [email, setEmail]= useState()
 const [password, setPassword]= useState()
 const [showPassword, setShowPassword] = useState("password")
@@ -74,6 +75,21 @@ useEffect(()=>{
 setOnClick(false)
 
 },[onClick])
+
+if (isLoading) {
+  return (
+    <div className="loading-container">
+      <div className="loading-gif">
+        <PulseLoader
+          color="#f9a01b"
+          size={60}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      </div>
+    </div>
+  );
+}
     
     return(
         <div className="login">
