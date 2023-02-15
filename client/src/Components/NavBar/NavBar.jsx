@@ -27,7 +27,7 @@ const NavBar = ()=>{
               <div className="navbar_buttons">
                     <button onClick={()=>{
                         logout();
-                     navigate('/Login',{replace:true})  }}>logOut</button >  
+                     navigate("/Login", {replace:true})  }}>logOut</button >  
                 </div>
             </header>
         </div>

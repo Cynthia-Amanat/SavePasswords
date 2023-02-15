@@ -1,31 +1,29 @@
 
 import React ,{useState} from "react"
-import { PasswordsListContext } from "../../Context/PasswordContext";
 // import useFetch from "../../hook/UseFetch";
-const EditPopUp = ({setOpen,item })=>{
+const EditPopUp = ({setOpen, item})=>{
     const [title, setTitle] = useState("")
     const [password , setPassword] = useState("")
     const [showPassword, setShowPassword] = useState("password")
-    // const {passwordsList} = PasswordsListContext()
-    console.log(item.idpasswords)
     const url =`http://localhost:8000/passwords/update/${item.idpasswords}`
     const method = {
         method: "PATCH",
             headers: {
               "Content-Type": "application/json",
             },
-            body:JSON.stringify({title, password})
+            body:JSON.stringify({ title, password })
         }
-  
+ 
     const editHandler  =async ()=>{
+   
        try{
-        const request = await fetch(url ,method)
+        const request = await fetch(url , method)
         const response = await request.json()
         console.log(response)
         setOpen(false)    
             
         }catch(error){
-        console.log(error)
+        console.log(error.message)
        }
     }
 
@@ -37,7 +35,7 @@ const EditPopUp = ({setOpen,item })=>{
         <button className= "close-btn btn" onClick={()=>setOpen(false)}>Close</button>
             <input type="text"
             required
-            placeholder= "app name"
+            placeholder= {item.title}
             className="form__input_addPasswords" 
             onChange={(e) => setTitle(e.target.value)}/>
             
@@ -63,7 +61,7 @@ const EditPopUp = ({setOpen,item })=>{
               }
             ></i>
         </div>
-        <button className="btn_login" type="button" onClick={editHandler}>Edit</button>
+        <button className="btn_login" type="button" onClick={()=>editHandler()}>Edit</button>
     </section>
     </div>
     )

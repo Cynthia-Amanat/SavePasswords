@@ -42,9 +42,8 @@ useEffect(() => {
   }
 }, []);
 const logout = () => {
-  setToken(null);
-  setUser(null);
-  localStorage.removeItem("accessToken");
+  setUser("")
+  setToken("")
 };
 
   

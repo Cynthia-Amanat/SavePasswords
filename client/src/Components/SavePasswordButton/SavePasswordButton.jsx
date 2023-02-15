@@ -7,7 +7,7 @@ const SavePasswordButton = ()=>{
   
     return(
         <><div className="savePasswordBtn"> 
-            <button className="savePasswordBtn" onClick={()=>setOpen(!open)}> click here to Save Passwords</button>
+            <button className="savePasswordBtn" onClick={(e)=> {e.preventDefault(); setOpen(!open)}}> click here to Save Passwords</button>
         </div>
             <div>
             {open && <AddPasswordForm/>}
