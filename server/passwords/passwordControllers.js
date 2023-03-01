@@ -9,14 +9,14 @@ export const addPassword = async(req ,res)=>{
     const {
     title,
     password,
-    idRegistration,
+    registration_id,
     } = req.body
     const encryptedPassword = encryption(password)
 
-    const query = `INSERT INTO passwords (title, password , idRegistration, iv) Values(?,?,?,?)`
+    const query = `INSERT INTO passwords (title, iv, password, registration_id) Values(?,?,?,?)`
     try{
-        const addPassword = await exceQuery(query,[title, encryptedPassword.password, idRegistration, encryptedPassword.iv])
-
+        const addPassword = await exceQuery(query,[title,  encryptedPassword.iv,  encryptedPassword.password, registration_id])
+        console.log(addPassword)
         if(addPassword){
             const allPasswords = await exceQuery('Select * from passwords')
 
@@ -29,9 +29,9 @@ export const addPassword = async(req ,res)=>{
 }
 
 export const getPasswords = async (req, res)=>{
-    const idRegistration = req.params.id
+    const registration_id = req.params.id
 
-    const query = `SELECT * FROM passwords Where idRegistration = "${idRegistration}"`
+    const query = `SELECT * FROM passwords Where registration_id = "${registration_id}"`
     try{
         const getPasswords = await exceQuery(query)
         if(getPasswords){
@@ -62,9 +62,9 @@ export const UpdatePasswordsAndTitle = async(req, res)=>{
    console.log(req.body)
    console.log(id)
 
-    const queryTitle = `UPDATE passwords SET title = ? WHERE idpasswords = ${id}`
+    const queryTitle = `UPDATE passwords SET title = ? WHERE password_id = ${id}`
     
-    const queryPassword = `UPDATE passwords SET password = ?, iv = ?  WHERE idpasswords = ${id}`
+    const queryPassword = `UPDATE passwords SET , iv = ? password = ? WHERE password_id = ${id}`
     try{
         if(title){
          await exceQuery(queryTitle ,[title ,id],(error, result) => {
@@ -90,7 +90,7 @@ export const UpdatePasswordsAndTitle = async(req, res)=>{
 }
 export const deletePassword = async(req, res)=>{
     const id = req.params.id
-    const query = `DELETE FROM passwords WHERE idpasswords = ${id}`
+    const query = `DELETE FROM passwords WHERE password_id = ${id}`
     
     try{
         const deletePassword = await exceQuery(query)

@@ -8,7 +8,7 @@ const EditPopUp = ({setOpen, item})=>{
     const [password , setPassword] = useState("")
     const [showPassword, setShowPassword] = useState("password")
     const { setPasswordList} = PasswordsListContext()
-    const url =`http://localhost:8000/passwords/update/${item.idpasswords}`
+    const url =`http://localhost:8000/passwords/update/${item.password_id}`
     const method = {
         method: "PATCH",
             headers: {
@@ -22,7 +22,6 @@ const EditPopUp = ({setOpen, item})=>{
        try{
         const request = await fetch(url , method)
         const response = await request.json()
-        console.log(response)
         setOpen(false)    
             
         }catch(error){

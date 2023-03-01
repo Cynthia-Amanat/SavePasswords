@@ -59,6 +59,7 @@ export const login = async(req,res)=>{
     
     try{
     const results = await exceQuery(query)
+    console.log(results)
     if(results.length > 0){
         bcrypt.compare(req.body.password, results[0].password, function(error, result) {
                         if(error) throw error

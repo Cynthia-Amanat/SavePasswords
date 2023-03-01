@@ -25,7 +25,7 @@ const PasswordCard = ({ item }) => {
         passwordsList.map((item) => {
           return item.idpasswords === encryption.idpasswords
             ? {
-                idpasswords: item.idpasswords,
+                idpasswords: item.password_id,
                 title: data,
                 iv: item.iv,
               }
@@ -54,8 +54,7 @@ const PasswordCard = ({ item }) => {
     };
     try {
       const request = await fetch(url, method);
-      const response = await request.json();
-      const newPasswordsList = passwordsList.filter((list) => list.idpasswords !== id);
+      const newPasswordsList = passwordsList.filter((list) => list.password_id !== id);
       setPasswordList(newPasswordsList);
     } catch (error) {
       console.log(error.message);
@@ -90,7 +89,7 @@ const PasswordCard = ({ item }) => {
       <td>
         <button
           className='btn-edit'
-          onClick={() => deleteHandler(item.idpasswords)}
+          onClick={() => deleteHandler(item.password_id)}
         >
           <i className='fa-solid fa-trash-can'></i>
         </button>

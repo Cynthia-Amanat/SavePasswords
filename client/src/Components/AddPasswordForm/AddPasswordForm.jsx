@@ -9,13 +9,7 @@ const AddPasswordForm = ()=>{
     const [title, setTitle] = useState("")
     const [password , setPassword] = useState("")
     const [showPassword, setShowPassword] = useState("password")
-    const idRegistration = user.idRegistration
-    const url = "http://localhost:8000/passwords/addPassword"
-    const method ={
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({title, password ,idRegistration})
-    }
+    
 
 
     const { setPasswordList} = PasswordsListContext()
@@ -23,17 +17,28 @@ const AddPasswordForm = ()=>{
 
   
     const addPasswordHandler = async() =>{
+
+    const registration_id = parseInt(user.registration_id)
+    console.log(registration_id)
+    const url = "http://localhost:8000/passwords/addPassword"
+    const method ={
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({title, password, registration_id})
+    }
       
         try{
             
             const response = await fetch(url,method)
             const data = await response.json()
+            console.log(data)
             if (data.success) {
               setPasswordList(data.data)
                 document.getElementById("addPasswords_form").classList.add("hide");
               }
         }catch(error){
            setError(error) 
+           console.log(error.message)
         }
       
     }
