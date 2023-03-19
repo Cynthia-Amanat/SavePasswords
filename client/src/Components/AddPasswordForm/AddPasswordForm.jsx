@@ -13,18 +13,16 @@ const AddPasswordForm = ()=>{
 
 
     const { setPasswordList} = PasswordsListContext()
-
-
-  
+    const token = localStorage.getItem("accessToken");
     const addPasswordHandler = async() =>{
 
-    const registration_id = parseInt(user.registration_id)
-    console.log(registration_id)
+    const registration_id = user.registration_id
     const url = "http://localhost:8000/passwords/addPassword"
     const method ={
         method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({title, password, registration_id})
+        headers: {"Content-Type": "application/json",
+        Authorization: `Bearer ${token}`},
+        body: JSON.stringify({title, password,registration_id})
     }
       
         try{

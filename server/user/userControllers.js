@@ -3,8 +3,10 @@ import bcrypt from 'bcrypt'
 import pool from '../database.js'
 import jwt from 'jsonwebtoken'
 import {promisify} from "util"
+import { OAuth2Client } from 'google-auth-library';
 
 const exceQuery = promisify(pool.query).bind(pool);
+const client = new OAuth2Client(process.env.CLIENT_ID);
 
 export const createUser =async(req,res)=>{
     let hashPassword = req.body.password
@@ -27,7 +29,7 @@ export const createUser =async(req,res)=>{
     const registerNewUser = await exceQuery(queryInsert ,data)
     if(registerNewUser){
         return res.status(200).json({
-       success:true , data:data     
+       success:true , data:registerNewUser    
         })
     }
  }catch(error){
@@ -59,7 +61,6 @@ export const login = async(req,res)=>{
     
     try{
     const results = await exceQuery(query)
-    console.log(results)
     if(results.length > 0){
         bcrypt.compare(req.body.password, results[0].password, function(error, result) {
                         if(error) throw error
@@ -79,3 +80,66 @@ export const login = async(req,res)=>{
 
 
 }
+
+;
+
+// export const loginWithGoogle = async (req, res) => {
+//     try {
+//       const token = req.body.token;
+//       const ticket = await client.verifyIdToken({
+//         idToken: token,
+//         audience: process.env.CLIENT_ID,
+//       });
+//       const payload = ticket.getPayload();
+//       const { sub, email, name } = payload;
+//       try {
+//         const query = 'INSERT  INTO registration ( email, name ,google_id) VALUES (?, ?, ?)';
+//         const values = [ email, name,sub];
+//        const data = await exceQuery (query, values);
+//        console.log(data)
+//         const jwtToken = jwt.sign({ id: sub }, process.env.ACCESS_TOKEN_SECRET);
+//         res.json({ token: jwtToken });
+//       } catch(error){
+//         console.error(error);
+//       }
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).json({ message: 'Internal Server Error' });
+//     }
+export const loginWithGoogle = async (req, res) => {
+    try {
+      const token = req.body.token;
+      const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.CLIENT_ID,
+      });
+      const payload = ticket.getPayload();
+      const { sub, email, name } = payload;
+      try {
+        const selectQuery = 'SELECT * FROM registration WHERE google_id = ? LIMIT 1';
+        const selectValues = [sub];
+        const [existingUser] = await exceQuery(selectQuery, selectValues);
+        console.log(existingUser)
+        if (existingUser) {
+          const jwtToken = jwt.sign({ id: sub }, process.env.ACCESS_TOKEN_SECRET);
+          res.json({ token: jwtToken , user:existingUser });
+        } else {
+          const insertQuery = 'INSERT INTO registration (email, name, google_id) VALUES (?, ?, ?)';
+          const insertValues = [email, name, sub];
+          const result = await exceQuery(insertQuery, insertValues);
+          console.log(result);
+          const jwtToken = jwt.sign({ id: sub }, process.env.ACCESS_TOKEN_SECRET);
+          res.json({ token: jwtToken , user:result});
+          return result.insertId;
+  
+        }
+      
+      } catch (error) {
+        console.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+  

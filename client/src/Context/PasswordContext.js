@@ -3,7 +3,6 @@ import { createContext , useState ,useEffect, useContext } from "react";
 import { useAuth } from "./UserContext";
 
 export const PasswordContext = createContext();
-
 export const PasswordsListContext = () => {
     return useContext(PasswordContext);
   };

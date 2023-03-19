@@ -3,7 +3,6 @@ import "./login.css"
 import { GoogleLogin } from '@react-oauth/google';
 import { useState } from "react";
 import {useAuth} from "../../Context/UserContext";
-import jwt_decode from "jwt-decode"
 import { useNavigate,  Link} from "react-router-dom";
 import { useEffect } from "react";
 import PulseLoader from "react-spinners/PulseLoader";
@@ -20,23 +19,27 @@ const [showPassword, setShowPassword] = useState("password")
 const [onClick, setOnClick] = useState(false);
 
 // login with google
-    const onSuccessGoogleLogin = async(credentialResponse)=>{
-        console.log(credentialResponse)
-        const decodedToken = await jwt_decode(credentialResponse.credential);
-    setUser({
-      user: decodedToken,
-      token: credentialResponse.credential,
-    });
-    localStorage.setItem(
-      "accessToken",
-      JSON.stringify({
-        user: decodedToken,
-        token: credentialResponse.credential,
-      })
-    );
-    navigate('/' , { replace: true });
+
+  const onSuccessGoogleLogin = async (credentialResponse) => {
+    const token = credentialResponse.credential;
+    try {
+      const response = await fetch("http://localhost:8000/users/googleLogin", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token })
+      });
+      const data = await response.json();
+      const jwtToken = data.token;
+      localStorage.setItem('accessToken', jwtToken);
+      localStorage.setItem('user', JSON.stringify(data.user) );
+      setUser(data.user)
+      navigate('/', { replace: true });
+    } catch (error) {
+      console.error(error);
+    }
   };
-  // login with database
 
   const url = "http://localhost:8000/users/login"
   const method = {
@@ -54,7 +57,6 @@ useEffect(()=>{
       if(data.success){
       const { accessToken } = data;
       localStorage.setItem("accessToken", `${accessToken}`);
-      localStorage.setItem("loggin", true);
       setUser(data.user);
       navigate('/' , { replace: true });
       }else{

@@ -9,7 +9,7 @@ export const addPassword = async(req ,res)=>{
     const {
     title,
     password,
-    registration_id,
+    registration_id
     } = req.body
     const encryptedPassword = encryption(password)
 
@@ -53,18 +53,12 @@ export const decrypt = (req, res)=>{
 
 export const UpdatePasswordsAndTitle = async(req, res)=>{
     const id = req.params.id
-    // const {
-    //     title,
-    //     password,
-    // }= req.body
     const title = req.body.title
     const password = req.body.password
-   console.log(req.body)
-   console.log(id)
 
     const queryTitle = `UPDATE passwords SET title = ? WHERE password_id = ${id}`
     
-    const queryPassword = `UPDATE passwords SET , iv = ? password = ? WHERE password_id = ${id}`
+    const queryPassword = `UPDATE passwords SET iv = ? , password = ? WHERE password_id = ${id}`
     try{
         if(title){
          await exceQuery(queryTitle ,[title ,id],(error, result) => {
@@ -80,7 +74,7 @@ export const UpdatePasswordsAndTitle = async(req, res)=>{
             await exceQuery(queryPassword,[encryptedPassword.password,encryptedPassword.iv,  id],(error, result) => {
                 if (error) throw error;
                 res.status(200).json({success: true , message:" passsword successfully updated"});
-                console.log(result)
+                
             })
         }
     

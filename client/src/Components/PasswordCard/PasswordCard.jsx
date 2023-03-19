@@ -21,11 +21,12 @@ const PasswordCard = ({ item }) => {
     try {
       const response = await fetch(url, methods);
       const data = await response.json();
+      console.log(data)
       setPasswordList(
         passwordsList.map((item) => {
-          return item.idpasswords === encryption.idpasswords
+          return item.password_id === encryption.password_id
             ? {
-                idpasswords: item.password_id,
+                password_id: item.password_id,
                 title: data,
                 iv: item.iv,
               }
@@ -53,7 +54,7 @@ const PasswordCard = ({ item }) => {
       method: "DELETE",
     };
     try {
-      const request = await fetch(url, method);
+        await fetch(url, method);
       const newPasswordsList = passwordsList.filter((list) => list.password_id !== id);
       setPasswordList(newPasswordsList);
     } catch (error) {
@@ -75,7 +76,7 @@ const PasswordCard = ({ item }) => {
           decryptPassword({
             password: item.password,
             iv: item.iv,
-            idpasswords: item.idpasswords,
+            password_id: item.password_id,
           });
         }}
       >

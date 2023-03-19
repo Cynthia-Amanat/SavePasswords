@@ -9,12 +9,22 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({children}) => {
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState(() => {
+    try {
+      const storedUser = localStorage.getItem("user");
+      return storedUser ? JSON.parse(storedUser) : {};
+    } catch (error) {
+      console.error(error);
+      localStorage.removeItem("user");
+      return {};
+    }
+  });
   const [error, setError] = useState("");
   const [token, setToken] = useState(() => {
     const token = localStorage.getItem("accessToken");
     return token;
   });
+  const [isLoading, setIsLoading] = useState(true);
 
  const url = "http://localhost:8000/users/profile"
  const method = {
@@ -30,9 +40,14 @@ export const AuthProvider = ({children}) => {
     const response = await fetch(url, method)
     const data = await response.json()
     console.log(data)
-    setUser(data.user)
+    if (data.user != null) {
+      setUser(data.user)
+      localStorage.setItem("user", JSON.stringify(data.user));
+    }
   }catch(error){
     setError(error.message)
+  }finally{
+    setIsLoading(false)
   }
   
  }
@@ -44,6 +59,8 @@ useEffect(() => {
 const logout = () => {
   setUser("")
   setToken("")
+  localStorage.removeItem("user");
+  localStorage.removeItem("accessToken");
 };
 
   
@@ -52,7 +69,8 @@ const logout = () => {
     setUser:setUser,
     logout:logout,
     error:error,
-    setError:setError
+    setError:setError,
+    isLoading:isLoading
   };
 
 
