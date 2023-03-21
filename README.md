@@ -1,6 +1,6 @@
 # Save Passwords
 
-## technologies Used 
+## Technologies used 
  <img src = "https://img.shields.io/badge/NODEJS-6aa84f?style=for-the-badge&logo=Node.js&logoColor=white">   <img src = "https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src = "https://img.shields.io/badge/ReactJs-61DAFB?style=for-the-badge&logo=react&logoColor=black">  <img src = "https://img.shields.io/badge/Mysql-eeeeee?style=for-the-badge&logo=MySql=black">  <img src = "https://img.shields.io/badge/Express-1572B6?style=for-the-badge&logo=Express&Color=black">
  <br/>
 
