@@ -1,6 +1,5 @@
-
 import React from "react";
-import { createContext , useState ,useEffect, useContext } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 
 const AuthContext = createContext();
 
@@ -8,7 +7,7 @@ export const useAuth = () => {
   return useContext(AuthContext);
 };
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     try {
       const storedUser = localStorage.getItem("user");
@@ -26,55 +25,49 @@ export const AuthProvider = ({children}) => {
   });
   const [isLoading, setIsLoading] = useState(true);
 
- const url = "http://localhost:8000/users/profile"
- const method = {
-  method: "GET",
-      headers: {
-        "content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
- }
-
- const getUser = async()=>{
-  try{
-    const response = await fetch(url, method)
-    const data = await response.json()
-    console.log(data)
-    if (data.user != null) {
-      setUser(data.user)
-      localStorage.setItem("user", JSON.stringify(data.user));
-    }
-  }catch(error){
-    setError(error.message)
-  }finally{
-    setIsLoading(false)
-  }
-  
- }
-useEffect(() => {
-  if(token){
-    getUser()
-  }
-}, []);
-const logout = () => {
-  setUser("")
-  setToken("")
-  localStorage.removeItem("user");
-  localStorage.removeItem("accessToken");
-};
-
-  
-  const value = {
-    user:user,
-    setUser:setUser,
-    logout:logout,
-    error:error,
-    setError:setError,
-    isLoading:isLoading
+  const url = `${process.env.REACT_APP_BASE_SERVER_URL}users/profile`;
+  const method = {
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   };
 
+  const getUser = async () => {
+    try {
+      const response = await fetch(url, method);
+      const data = await response.json();
+      if (data.user != null) {
+        setUser(data.user);
+        localStorage.setItem("user", JSON.stringify(data.user));
+      }
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    if (token) {
+      getUser();
+    }
+  }, []);
+  const logout = () => {
+    setUser("");
+    setToken("");
+    localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
+  };
+
+  const value = {
+    user: user,
+    setUser: setUser,
+    logout: logout,
+    error: error,
+    setError: setError,
+    isLoading: isLoading,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
-

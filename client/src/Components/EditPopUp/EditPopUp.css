@@ -1,28 +1,27 @@
-.editPassword{
-    width: 90%;
-    max-width: 750px;
-    margin: -1vh auto;
+.editPassword {
+  width: 90%;
+  max-width: 750px;
+  margin: -1vh auto;
 }
-.form_editPassword{
-    margin-top: 40px;
-    border-radius: 6px;
-    overflow: hidden;
+.form_editPassword {
+  margin-top: 40px;
+  border-radius: 6px;
+  overflow: hidden;
 }
-.form__group_editPassword{
-    display: block;
-    width: 100%;
-    font-family: "Roboto";
-    border: 0;
-    outline: 0;
+.form__group_editPassword {
+  display: block;
+  width: 100%;
+  font-family: "Roboto";
+  border: 0;
+  outline: 0;
 }
-.form__input_editPassword{
-    display: block;
-    width: 100%;
-    padding: 20px;
-    font-family: "Roboto";
-    -webkit-appearance: none;
-    border: 0;
-    outline: 0;
-    transition: 0.3s;
-    font-size: 22px;
+.form__input_editPassword {
+  display: block;
+  width: 100%;
+  padding: 20px;
+  font-family: "Roboto";
+  border: 0;
+  outline: 0;
+  transition: 0.3s;
+  font-size: 22px;
 }

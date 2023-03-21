@@ -8,5 +8,5 @@ const AppWrapper = ({ children }) => {
   return <Router>{children}</Router>;
 };
 
-
 export default AppWrapper;
+

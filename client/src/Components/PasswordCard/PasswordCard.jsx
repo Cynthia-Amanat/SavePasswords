@@ -21,7 +21,7 @@ const PasswordCard = ({ item }) => {
     try {
       const response = await fetch(url, methods);
       const data = await response.json();
-      console.log(data)
+      console.log(data);
       setPasswordList(
         passwordsList.map((item) => {
           return item.password_id === encryption.password_id
@@ -49,13 +49,15 @@ const PasswordCard = ({ item }) => {
     event.currentTarget.className = "error_on_image";
   }; // delete handler
   const deleteHandler = async (id) => {
-    const url = `http://localhost:8000/passwords/delete/${id}`;
+    const url = `${process.env.REACT_APP_BASE_SERVER_URL}passwords/delete/${id}`;
     const method = {
       method: "DELETE",
     };
     try {
-        await fetch(url, method);
-      const newPasswordsList = passwordsList.filter((list) => list.password_id !== id);
+      await fetch(url, method);
+      const newPasswordsList = passwordsList.filter(
+        (list) => list.password_id !== id
+      );
       setPasswordList(newPasswordsList);
     } catch (error) {
       console.log(error.message);
@@ -65,9 +67,9 @@ const PasswordCard = ({ item }) => {
     <tr>
       <td>
         <img
-          className='app_logo'
+          className="app_logo"
           src={`https://logo.clearbit.com/${item.title}.com?size=100`}
-          alt='logo'
+          alt="logo"
           onError={imageOnError}
         />
       </td>
@@ -83,21 +85,21 @@ const PasswordCard = ({ item }) => {
         {item.title}
       </td>
       <td>
-        <button className='btn-edit' onClick={() => setOpen(!open)}>
-          <i className='fas fa-edit'></i>
+        <button className="btn-edit" onClick={() => setOpen(!open)}>
+          <i className="fas fa-edit"></i>
         </button>
       </td>
       <td>
         <button
-          className='btn-edit'
+          className="btn-edit"
           onClick={() => deleteHandler(item.password_id)}
         >
-          <i className='fa-solid fa-trash-can'></i>
+          <i className="fa-solid fa-trash-can"></i>
         </button>
       </td>
       <td>
         {open ? (
-          <div className='update-profile-popup-container'>
+          <div className="update-profile-popup-container">
             <EditPopUp setOpen={setOpen} item={item} />
           </div>
         ) : null}
