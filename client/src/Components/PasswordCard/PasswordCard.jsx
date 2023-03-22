@@ -21,7 +21,6 @@ const PasswordCard = ({ item }) => {
     try {
       const response = await fetch(url, methods);
       const data = await response.json();
-      console.log(data);
       setPasswordList(
         passwordsList.map((item) => {
           return item.password_id === encryption.password_id

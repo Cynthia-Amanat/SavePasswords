@@ -109,7 +109,6 @@ export const loginWithGoogle = async (req, res) => {
         "SELECT * FROM registration WHERE google_id = ? LIMIT 1";
       const selectValues = [sub];
       const [existingUser] = await exceQuery(selectQuery, selectValues);
-      console.log(existingUser);
       if (existingUser) {
         const jwtToken = jwt.sign({ id: sub }, process.env.ACCESS_TOKEN_SECRET);
         res.json({ token: jwtToken, user: existingUser });
@@ -118,7 +117,6 @@ export const loginWithGoogle = async (req, res) => {
           "INSERT INTO registration (email, name, google_id) VALUES (?, ?, ?)";
         const insertValues = [email, name, sub];
         const result = await exceQuery(insertQuery, insertValues);
-        console.log(result);
         const jwtToken = jwt.sign({ id: sub }, process.env.ACCESS_TOKEN_SECRET);
         res.json({ token: jwtToken, user: result });
         return result.insertId;

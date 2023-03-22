@@ -16,7 +16,6 @@ export const addPassword = async (req, res) => {
       encryptedPassword.password,
       registration_id,
     ]);
-    console.log(addPassword);
     if (addPassword) {
       const allPasswords = await exceQuery("Select * from passwords");
 
@@ -66,7 +65,7 @@ export const UpdatePasswordsAndTitle = async (req, res) => {
           if (error) throw error;
           res
             .status(200)
-            .json({ success: true, message: "title updated", title: title });
+            .json({ success: true, message: "title updated", });
         }
       );
     }

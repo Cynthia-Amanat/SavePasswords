@@ -1,12 +1,14 @@
 import {createPool} from 'mysql';
+import dotenv from "dotenv";
+dotenv.config();
 
 const pool = createPool({
-    port:3306,
-    host:"127.0.0.1",
-    user: "root",
-    password:"password",
-    database:"test",
-    connectionLimit:10
+    port:process.env.DB_PORT,
+    host:process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password:process.env.DB_PASSWORD,
+    database:process.env.DB_NAME,
+    connectionLimit:process.env.DB_CONNECTION_LIMIT
 
 }, () => {
     console.log('connect to port ')

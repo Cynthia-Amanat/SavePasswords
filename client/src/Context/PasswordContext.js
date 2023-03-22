@@ -20,7 +20,6 @@ export const PasswordProvider = ({ children }) => {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      console.log(data);
       setPasswordList(data?.result);
       if (data.result) setLoading(false);
     } catch (error) {
