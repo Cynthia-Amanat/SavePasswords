@@ -7,7 +7,7 @@
 ## About this app
 SavePassword is responsible for storing the passwords of websites or social networks  and thus you only have to worry about one password, the SavePassword password.
 
-## Characteristics
+### Characteristics
 * Access from simple login and google account.
 * Saving accounts and passwords.
 * Editing of accounts.
@@ -18,3 +18,11 @@ SavePassword is responsible for storing the passwords of websites or social netw
 <img  src='images/loginwithgoogle.png' >
 <img  src='images/homepage.png' >
 <img  src='images/Edit.png' >
+
+## Setup
+To run this project install it locally 
+* cd client 
+* npm start to start the client side
+* cd  server 
+* npm start to start the backend
+
