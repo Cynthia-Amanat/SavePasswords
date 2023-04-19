@@ -4,7 +4,7 @@ import {
   getUser,
   loginWithGoogle,
 } from "./userControllers.js";
-import { authenticateToken } from "./middleWare/authenicateToken.js";
+import { authenticateToken } from "./middleware/authenicateToken.js";
 import { Router } from "express";
 
 const userRouter = Router();

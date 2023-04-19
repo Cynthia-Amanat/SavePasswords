@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import SignUp from "./Pages/SignUp/SignUp.jsx";
-import Login from "./Pages/LogiIn/Login";
+import Login from "./Pages/LogIn/Login";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { AuthProvider } from "./Context/UserContext.js";
 import { PasswordProvider } from "./Context/PasswordContext.js";

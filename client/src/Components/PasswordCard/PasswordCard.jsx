@@ -21,6 +21,7 @@ const PasswordCard = ({ item }) => {
     try {
       const response = await fetch(url, methods);
       const data = await response.json();
+      
       setPasswordList(
         passwordsList.map((item) => {
           return item.password_id === encryption.password_id
@@ -32,13 +33,9 @@ const PasswordCard = ({ item }) => {
             : item;
         })
       );
-      setTimeout(() => {
-        window.removeEventListener(
-          decryptPassword,
-          setPasswordList(passwordsList)
-        );
-      }, 3000);
+   
     } catch (error) {
+      console.log(error)
       setError(error);
     }
   };

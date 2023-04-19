@@ -42,7 +42,7 @@ export const createUser = async (req, res) => {
 
 // get user
 export const getUser = async (req, res) => {
-  let email = req.user;
+  const email = req.user;
   const query = ` select * from registration where email = "${email}" `;
   try {
     const result = await exceQuery(query);

@@ -17,7 +17,8 @@ const EditPopUp = ({ setOpen, item }) => {
   const editHandler = async () => {
     try {
       const request = await fetch(url, method);
-      await request.json();    
+       const data = await request.json();
+       console.log(data)    
       setOpen(false);
     } catch (error) {
       console.log(error.message);
